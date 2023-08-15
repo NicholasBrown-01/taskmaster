@@ -30,15 +30,15 @@
 
     <EditText
         android:id="@+id/editTextText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="327dp"
+        android:layout_height="94dp"
         android:layout_marginStart="50dp"
         android:alpha=".5"
         android:ems="10"
         android:inputType="text"
-        android:text="Task title input"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView4"
@@ -63,23 +63,37 @@
 
     <EditText
         android:id="@+id/editTextText3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="329dp"
+        android:layout_height="77dp"
         android:layout_marginStart="50dp"
         android:alpha=".5"
         android:ems="10"
         android:inputType="text"
-        android:text="Task description input"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="113dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="164dp"
         android:text="Total tasks: 0"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ActivityAddThisTaskButton" />
+
+    <TextView
+        android:id="@+id/addTaskSubmittedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:text="Submitted!"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

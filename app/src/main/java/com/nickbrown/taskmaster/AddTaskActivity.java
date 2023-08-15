@@ -3,7 +3,9 @@ package com.nickbrown.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -13,9 +15,11 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
 
         Button addThisTaskButton = findViewById(R.id.ActivityAddThisTaskButton);
+        TextView submittedTextLabel = findViewById(R.id.addTaskSubmittedText);
+
         addThisTaskButton.setOnClickListener(v -> {
             System.out.println("Submitted!");
-
+            submittedTextLabel.setVisibility(View.VISIBLE);
 
         });
 

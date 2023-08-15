@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">taskmaster</string>
+    <string name="my_tasks">My Tasks</string>
+    <string name="add_task">ADD TASK</string>
+    <string name="all_tasks">ALL TASKS</string>
+    <string name="a_default_picture">A Default Picture</string>
+    <string name="add_this_task">Add This Task</string>
+    <string name="add_a_task">Add a Task</string>
+    <string name="green_square">Green Square</string>
+</resources>

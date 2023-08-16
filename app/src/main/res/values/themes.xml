@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Taskmaster" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/seafoam_blue</item>
     </style>
 
     <style name="Theme.Taskmaster" parent="Base.Theme.Taskmaster" />

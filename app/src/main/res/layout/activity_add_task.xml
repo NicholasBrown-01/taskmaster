@@ -31,14 +31,17 @@
     <EditText
         android:id="@+id/editTextText"
         android:layout_width="327dp"
-        android:layout_height="94dp"
+        android:layout_height="50dp"
         android:layout_marginStart="50dp"
         android:alpha=".5"
+        android:autofillHints=""
         android:ems="10"
+        android:hint="@string/input_your_task_title"
         android:inputType="text"
+        android:textColorHint="#8D6E63"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck" />
 
     <TextView
         android:id="@+id/textView4"
@@ -46,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="40dp"
-        android:text="Task title"
+        android:text="@string/task_title"
         app:layout_constraintBottom_toTopOf="@+id/editTextText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -57,21 +60,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
-        android:text="Task Description"
+        android:text="@string/task_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
     <EditText
         android:id="@+id/editTextText3"
         android:layout_width="329dp"
-        android:layout_height="77dp"
+        android:layout_height="50dp"
         android:layout_marginStart="50dp"
         android:alpha=".5"
+        android:autofillHints=""
         android:ems="10"
+        android:hint="@string/input_description_of_your_task"
         android:inputType="text"
+        android:textColorHint="#8D6E63"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck" />
 
     <TextView
         android:id="@+id/textView7"
@@ -80,7 +86,7 @@
         android:layout_marginStart="163dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="164dp"
-        android:text="Total tasks: 0"
+        android:text="@string/total_tasks_0"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,8 +98,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
-        android:text="Submitted!"
+        android:text="@string/submitted"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,5 +17,11 @@ with a Lorem Ipsum description. The lab also adds a settings page in which the U
 input a User Name and it will be saved (Visually depicted by a toast notification) and then 
 the username updated and displayed back on the Homepage.
 
+### Lab28 RecyclerView to TaskMaster
+
+This lab was a refactor of the Homepage that removes our Task Details buttons and is instead
+replaced with a RecyclerView of all available tasks. Like the last lab, when a user selects a task
+it should then be directed and displayed on the following page with the selected task at the top
+of the page. Settings page remains operational.
 
 

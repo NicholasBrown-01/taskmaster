@@ -22,21 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/MainActivityTaskDetailsButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="48dp"
-        android:backgroundTint="#0CEAD7"
-        android:text="@string/task_details"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageView
         android:id="@+id/MainActivityImageToSettings"
         android:layout_width="57dp"
@@ -50,49 +35,15 @@
         app:srcCompat="?android:attr/fingerprintAuthDrawable"
         tools:ignore="ContentDescription" />
 
-    <Button
-        android:id="@+id/MainActivityLaundryButton"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/MainActivityTaskRecyclerView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="100dp"
-        android:text="Laundry"
-        android:textColor="#000000"
-        app:backgroundTint="#B2DFDB"
+        android:layout_height="494dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainActivityUsernameTaskHeader" />
-
-    <Button
-        android:id="@+id/MainActivityTrashButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="100dp"
-        android:text="Trash"
-        android:textColor="#000000"
-        app:backgroundTint="#B2DFDB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainActivityLaundryButton" />
-
-    <Button
-        android:id="@+id/MainActivityDishesButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="100dp"
-        android:text="Dishes"
-        android:textColor="#000000"
-        app:backgroundTint="#B2DFDB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainActivityTrashButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

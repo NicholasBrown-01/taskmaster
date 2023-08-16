@@ -7,4 +7,15 @@
     <string name="add_this_task">Add This Task</string>
     <string name="add_a_task">Add a Task</string>
     <string name="green_square">Green Square</string>
+    <string name="task_title">Task title</string>
+    <string name="task_description">Task Description</string>
+    <string name="total_tasks_0">Total tasks: 0</string>
+    <string name="submitted">Submitted!</string>
+    <string name="input_your_task_title">Input your task title</string>
+    <string name="input_description_of_your_task">Input description of your task</string>
+    <string name="task_details">Task Details</string>
+    <string name="todo">TODO</string>
+    <string name="username">Username:</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="save">Save</string>
 </resources>

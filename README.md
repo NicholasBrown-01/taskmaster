@@ -25,3 +25,9 @@ it should then be directed and displayed on the following page with the selected
 of the page. Settings page remains operational.
 
 
+### Lab29 Saving Data with Room to TaskMaster
+
+This lab was a refactor of the Homepage, AddTasks, and TaskDetail pages. A database and ENUM were
+added and now the user can add a task, assign a status category, and see it get dynamically added
+to the homepage recycleviewer. When viewing a task, it will now display with the proper matching 
+description and status as well as having the total tasks displayed at the bottom.

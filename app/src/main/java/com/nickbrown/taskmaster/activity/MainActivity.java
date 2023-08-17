@@ -10,15 +10,19 @@ import android.os.Bundle;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nickbrown.taskmaster.R;
 import com.nickbrown.taskmaster.adapter.TaskClassAdapter;
+import com.nickbrown.taskmaster.database.TaskmasterDatabase;
 import com.nickbrown.taskmaster.model.TaskClass;
+import com.nickbrown.taskmaster.model.TasksENUM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     List<TaskClass> taskItem = new ArrayList<>();
 
+    TaskmasterDatabase taskmasterDatabase;
+    public static final String DATABASE_NAME = "nickbrown_taskmaster";
+
+    TaskClassAdapter adapter;
+;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +49,18 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this); //leaving this out causes your app to stop running and not launch.
 
+        Button goToAddTaskActiviyPageButton = findViewById(R.id.MainActivityAddTaskButton);
+        goToAddTaskActiviyPageButton.setOnClickListener(new View.OnClickListener() {
 
-        createTasks();
+
+            @Override
+            public void onClick(View v) {
+                Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
+                startActivity(addTaskIntent);
+            }
+        });
+
+        setupDatabase();
         setupRecyclerView();
         setupNavigationButton();
 
@@ -62,6 +81,20 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         setupUsernameTextHeader();
+        updateTaskListFromDatabase();
+        updateTotalTasksCount();
+    }
+
+    void setupDatabase() {
+        taskmasterDatabase = Room.databaseBuilder(
+                getApplicationContext(),
+                TaskmasterDatabase.class,
+                DATABASE_NAME)
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
+
+        taskItem = taskmasterDatabase.taskdao().findAll();
     }
 
 
@@ -86,26 +119,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        TaskClassAdapter adapter = new TaskClassAdapter(taskItem, this);
+        adapter = new TaskClassAdapter(taskItem, this);
         taskListRecyclerView.setAdapter(adapter);
+
+
     }
 
-
-    void createTasks() {
-        taskItem.add(new TaskClass("Laundry", "Wash and fold the clothes", TaskClass.TaskState.ASSIGNED));
-        taskItem.add(new TaskClass("Trash", "Take out the garbage", TaskClass.TaskState.IN_PROGRESS));
-        taskItem.add(new TaskClass("Dishes", "Clean and put away the dishes", TaskClass.TaskState.COMPLETE));
-        taskItem.add(new TaskClass("Vacuum", "Vacuum the living room and bedrooms", TaskClass.TaskState.NEW));
-        taskItem.add(new TaskClass("Dusting", "Dust everything", TaskClass.TaskState.ASSIGNED));
-        taskItem.add(new TaskClass("Cooking", "Prepare dinner for tonight", TaskClass.TaskState.IN_PROGRESS));
-        taskItem.add(new TaskClass("Gardening", "Water the plants and trim the bushes", TaskClass.TaskState.COMPLETE));
-        taskItem.add(new TaskClass("Car", "Wash the car and check the oil", TaskClass.TaskState.ASSIGNED));
-        taskItem.add(new TaskClass("Emails", "Clear out emails", TaskClass.TaskState.IN_PROGRESS));
-        taskItem.add(new TaskClass("Bills", "Pay the monthly bills", TaskClass.TaskState.NEW));
-        taskItem.add(new TaskClass("Exercise", "Go for a 30-minute jog", TaskClass.TaskState.ASSIGNED));
-        taskItem.add(new TaskClass("Study", "Read two chapters", TaskClass.TaskState.IN_PROGRESS));
-        taskItem.add(new TaskClass("Dog", "Walk the dog around the park", TaskClass.TaskState.COMPLETE));
-        taskItem.add(new TaskClass("Repair", "Fix the leaky faucet in the bathroom", TaskClass.TaskState.NEW));
+    void updateTaskListFromDatabase() {
+        taskItem.clear();
+        taskItem.addAll(taskmasterDatabase.taskdao().findAll());
+        adapter.notifyDataSetChanged();
+    }
+    void updateTotalTasksCount() {
+        TextView totalTasksTextView = findViewById(R.id.MainActivityTotalTaskTextView);
+        int totalTasks = taskmasterDatabase.taskdao().getTotalTasksCount();
+        totalTasksTextView.setText("Total Tasks: " + totalTasks);
     }
 }
 

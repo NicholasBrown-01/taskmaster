@@ -1,28 +1,29 @@
 package com.nickbrown.taskmaster.model;
 
-import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
 public class TaskClass {
-    // Fields
+    @PrimaryKey(autoGenerate = true)
+    public Long id;
     private String title;
     private String body;
-    private TaskState state;
+    private TasksENUM state;  // Using TasksENUM to represent state
 
-    // Enum for TaskState
-    public enum TaskState {
-        NEW, ASSIGNED, IN_PROGRESS, COMPLETE
-    }
-
-    // Constructor
-
-
+    // Constructor for Room (which might require a default constructor)
     public TaskClass() {
     }
 
-    public TaskClass(String title, String body, TaskState state) {
+    // This constructor seems to be wrongly generated. I assume it's not used.
+    // Remove or update it appropriately.
+    @Deprecated
+    public TaskClass(String toString, String toString1, Object fromString) {
+    }
+
+    // Primary constructor
+    public TaskClass(String title, String body, TasksENUM state) {
         this.title = title;
         this.body = body;
         this.state = state;
@@ -47,18 +48,19 @@ public class TaskClass {
     }
 
     // Getter and Setter methods for state
-    public TaskState getState() {
+    public TasksENUM getState() {
         return state;
     }
 
-    public void setState(TaskState state) {
+    public void setState(TasksENUM state) {
         this.state = state;
     }
 
     @Override
     public String toString() {
         return "TaskClass{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 ", state=" + state +
                 '}';

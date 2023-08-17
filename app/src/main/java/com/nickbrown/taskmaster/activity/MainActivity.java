@@ -1,4 +1,4 @@
-package com.nickbrown.taskmaster;
+package com.nickbrown.taskmaster.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nickbrown.taskmaster.R;
+import com.nickbrown.taskmaster.adapter.TaskClassAdapter;
+import com.nickbrown.taskmaster.model.TaskClass;
 
 import java.util.ArrayList;
 import java.util.List;

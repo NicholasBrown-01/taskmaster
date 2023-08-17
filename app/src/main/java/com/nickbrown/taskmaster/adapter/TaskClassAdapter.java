@@ -1,4 +1,4 @@
-package com.nickbrown.taskmaster;
+package com.nickbrown.taskmaster.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
+import com.nickbrown.taskmaster.activity.AllTasksActivity;
+import com.nickbrown.taskmaster.activity.MainActivity;
+import com.nickbrown.taskmaster.R;
+import com.nickbrown.taskmaster.model.TaskClass;
 
 import java.util.List;
 

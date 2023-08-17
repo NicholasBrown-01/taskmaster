@@ -1,4 +1,4 @@
-package com.nickbrown.taskmaster;
+package com.nickbrown.taskmaster.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import androidx.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.nickbrown.taskmaster.R;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String USERNAME_TAG = "Username";

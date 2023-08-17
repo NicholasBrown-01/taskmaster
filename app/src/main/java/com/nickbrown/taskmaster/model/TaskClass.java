@@ -1,4 +1,4 @@
-package com.nickbrown.taskmaster;
+package com.nickbrown.taskmaster.model;
 
 import android.view.ViewGroup;
 

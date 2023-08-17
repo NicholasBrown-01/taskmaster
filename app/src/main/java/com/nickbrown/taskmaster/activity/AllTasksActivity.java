@@ -1,9 +1,11 @@
-package com.nickbrown.taskmaster;
+package com.nickbrown.taskmaster.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.nickbrown.taskmaster.R;
 
 public class AllTasksActivity extends AppCompatActivity {
 

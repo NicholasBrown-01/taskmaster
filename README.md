@@ -31,3 +31,7 @@ This lab was a refactor of the Homepage, AddTasks, and TaskDetail pages. A datab
 added and now the user can add a task, assign a status category, and see it get dynamically added
 to the homepage recycleviewer. When viewing a task, it will now display with the proper matching 
 description and status as well as having the total tasks displayed at the bottom.
+
+### Lab31 Espresso Testing
+This lab was to add in Espresso Testing to ensure a username and task could be updated and viewed
+during the current session.

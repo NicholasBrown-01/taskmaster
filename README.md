@@ -33,5 +33,13 @@ to the homepage recycleviewer. When viewing a task, it will now display with the
 description and status as well as having the total tasks displayed at the bottom.
 
 ### Lab31 Espresso Testing
+
 This lab was to add in Espresso Testing to ensure a username and task could be updated and viewed
 during the current session.
+
+### Lab32 AWS Cloud Data
+
+This lab was a database overhaul by removing SharedPrefs and creating & connecting AWS services.
+The app now dynamically updates the AWS database and is verified by Dynamo Tables on the dashboard.
+All previous app functionality still works to include RecyclerView and Adding Tasks along with
+updating username.

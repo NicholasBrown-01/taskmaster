@@ -1,0 +1,33 @@
+# this is an auto generated file. This will be overwritten
+
+query GetTaskClass($id: ID!) {
+  getTaskClass(id: $id) {
+    id
+    title
+    body
+    state
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+query ListTaskClasses(
+  $filter: ModelTaskClassFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTaskClasses(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      body
+      state
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}

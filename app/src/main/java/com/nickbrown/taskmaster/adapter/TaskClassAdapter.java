@@ -9,10 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.TaskClass;
 import com.nickbrown.taskmaster.activity.AllTasksActivity;
 import com.nickbrown.taskmaster.activity.MainActivity;
 import com.nickbrown.taskmaster.R;
-import com.nickbrown.taskmaster.model.TaskClass;
+
 
 import java.util.List;
 

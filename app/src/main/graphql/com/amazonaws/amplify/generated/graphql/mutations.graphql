@@ -1,0 +1,46 @@
+# this is an auto generated file. This will be overwritten
+
+mutation CreateTaskClass(
+  $input: CreateTaskClassInput!
+  $condition: ModelTaskClassConditionInput
+) {
+  createTaskClass(input: $input, condition: $condition) {
+    id
+    title
+    body
+    state
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation UpdateTaskClass(
+  $input: UpdateTaskClassInput!
+  $condition: ModelTaskClassConditionInput
+) {
+  updateTaskClass(input: $input, condition: $condition) {
+    id
+    title
+    body
+    state
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation DeleteTaskClass(
+  $input: DeleteTaskClassInput!
+  $condition: ModelTaskClassConditionInput
+) {
+  deleteTaskClass(input: $input, condition: $condition) {
+    id
+    title
+    body
+    state
+    createdAt
+    updatedAt
+    __typename
+  }
+}

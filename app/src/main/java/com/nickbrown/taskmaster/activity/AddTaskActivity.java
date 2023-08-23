@@ -1,37 +1,41 @@
 package com.nickbrown.taskmaster.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+
 
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.TaskClass;
+import com.amplifyframework.datastore.generated.model.TasksENUM;
 import com.google.android.material.snackbar.Snackbar;
 import com.nickbrown.taskmaster.R;
-import com.nickbrown.taskmaster.database.TaskmasterDatabase;
-import com.nickbrown.taskmaster.model.TaskClass;
-import com.nickbrown.taskmaster.model.TasksENUM;
+
+
 
 public class AddTaskActivity extends AppCompatActivity {
-    TaskmasterDatabase taskmasterDatabase;
+    private final String TAG = "AddTaskActivity";
+//    TaskmasterDatabase taskmasterDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        taskmasterDatabase = Room.databaseBuilder(
-                        getApplicationContext(),
-                        TaskmasterDatabase.class,
-                        MainActivity.DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build();
+//        taskmasterDatabase = Room.databaseBuilder(
+//                        getApplicationContext(),
+//                        TaskmasterDatabase.class,
+//                        MainActivity.DATABASE_NAME)
+//                .fallbackToDestructiveMigration()
+//                .allowMainThreadQueries()
+//                .build();
 
         setupAddTaskActivitySpinner();
         setupAddTaskSaveButton();
@@ -51,15 +55,23 @@ public class AddTaskActivity extends AppCompatActivity {
         Spinner taskActivitySpinner = findViewById(R.id.AddTaskActivitySpinner);
 
         addThisTaskButton.setOnClickListener(v -> {
-            String title = ((EditText) findViewById(R.id.AddTaskActivityTaskTitle)).getText().toString();
-            String body = ((EditText) findViewById(R.id.AddTaskActivityAddTaskDescription)).getText().toString();
-            TasksENUM state = TasksENUM.valueOf(taskActivitySpinner.getSelectedItem().toString());
 
-            TaskClass taskToSave = new TaskClass(title, body, state);
+            EditText AddTaskActivityTaskTitle = findViewById(R.id.AddTaskActivityTaskTitle);
+            EditText AddTaskActivityAddTaskDescription = findViewById(R.id.AddTaskActivityAddTaskDescription);
 
-            taskmasterDatabase.taskdao().insertATask(taskToSave);
+            TaskClass taskToSave = TaskClass.builder()
+                    .title(AddTaskActivityTaskTitle.getText().toString())
+                    .body(AddTaskActivityAddTaskDescription.getText().toString())
+                    .state((TasksENUM) taskActivitySpinner.getSelectedItem())
+                    .build();
+
+            Amplify.API.mutate(
+                    ModelMutation.create(taskToSave),//This is your request to cloud
+                    successResponse -> Log.i(TAG, "Made Task SUCCESSFULLY" + successResponse),
+                    failureResponse -> Log.i(TAG, "Made Task FAILED" + failureResponse)
+            );
+
             Snackbar.make(findViewById(R.id.addTaskSubmittedText), "Task Saved!", Snackbar.LENGTH_SHORT).show();
-
             // Update the total task count after saving the task
             updateTotalTasksCount();
         });
@@ -67,8 +79,8 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private void updateTotalTasksCount() {
         TextView totalTasksTextView = findViewById(R.id.textView7);
-        int totalTasks = taskmasterDatabase.taskdao().getTotalTasksCount();
-        totalTasksTextView.setText("Total Tasks: " + totalTasks);
+//    TODO: Dynamo   int totalTasks = taskmasterDatabase.taskdao().getTotalTasksCount();
+//        totalTasksTextView.setText("Total Tasks: " + totalTasks);
     }
 
     @Override

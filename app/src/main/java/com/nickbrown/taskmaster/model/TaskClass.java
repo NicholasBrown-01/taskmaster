@@ -1,13 +1,11 @@
 package com.nickbrown.taskmaster.model;
 
 import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-@Entity
+
+
+
 public class TaskClass {
-    @PrimaryKey(autoGenerate = true)
-    public Long id;
     private String title;
     private String body;
     private TasksENUM state;  // Using TasksENUM to represent state
@@ -59,7 +57,6 @@ public class TaskClass {
     @Override
     public String toString() {
         return "TaskClass{" +
-                "id=" + id +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 ", state=" + state +

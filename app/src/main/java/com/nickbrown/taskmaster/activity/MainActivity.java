@@ -10,7 +10,7 @@ import android.os.Bundle;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
+
 
 import android.util.Log;
 import android.view.View;
@@ -18,11 +18,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.TaskClass;
 import com.nickbrown.taskmaster.R;
 import com.nickbrown.taskmaster.adapter.TaskClassAdapter;
-import com.nickbrown.taskmaster.database.TaskmasterDatabase;
-import com.nickbrown.taskmaster.model.TaskClass;
-import com.nickbrown.taskmaster.model.TasksENUM;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
 
     List<TaskClass> taskItem = new ArrayList<>();
-
-    TaskmasterDatabase taskmasterDatabase;
-    public static final String DATABASE_NAME = "nickbrown_taskmaster";
 
     TaskClassAdapter adapter;
 ;
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setupDatabase();
+        updateTaskListFromDatabase();
         setupRecyclerView();
         setupNavigationButton();
 
@@ -83,18 +81,6 @@ public class MainActivity extends AppCompatActivity {
         setupUsernameTextHeader();
         updateTaskListFromDatabase();
         updateTotalTasksCount();
-    }
-
-    void setupDatabase() {
-        taskmasterDatabase = Room.databaseBuilder(
-                getApplicationContext(),
-                TaskmasterDatabase.class,
-                DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
-                .build();
-
-        taskItem = taskmasterDatabase.taskdao().findAll();
     }
 
 
@@ -126,14 +112,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void updateTaskListFromDatabase() {
-        taskItem.clear();
-        taskItem.addAll(taskmasterDatabase.taskdao().findAll());
-        adapter.notifyDataSetChanged();
+        Amplify.API.query(
+                ModelQuery.list(TaskClass.class),
+                success -> {
+                    Log.i(TAG, "Read Tasks SUCCESSFULLY!!");
+                    taskItem.clear();
+                    for (TaskClass databaseTask : success.getData()) {
+                        taskItem.add(databaseTask);
+                    }
+                    runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                },
+                failure -> {
+                    Log.i(TAG, "FAILED reading Tasks"); // You were missing the opening curly brace
+                }
+        );
     }
     void updateTotalTasksCount() {
         TextView totalTasksTextView = findViewById(R.id.MainActivityTotalTaskTextView);
-        int totalTasks = taskmasterDatabase.taskdao().getTotalTasksCount();
-        totalTasksTextView.setText("Total Tasks: " + totalTasks);
+// TODO: Make Dynamo       int totalTasks = taskmasterDatabase.taskdao().getTotalTasksCount();
+//        totalTasksTextView.setText("Total Tasks: " + totalTasks);
     }
 }
 

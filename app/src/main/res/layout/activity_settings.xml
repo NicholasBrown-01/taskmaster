@@ -7,6 +7,22 @@
     android:background="#000000"
     tools:context=".activity.SettingsActivity">
 
+    <Spinner
+        android:id="@+id/SelectTeamSpinner"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="25dp"
+        android:alpha="1"
+        android:backgroundTint="#FFFFFF"
+        android:foregroundTint="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SettingActivityUsernameInputBox"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
     <TextView
         android:id="@+id/SettingActivityUsernameText"
         android:layout_width="wrap_content"
@@ -36,12 +52,13 @@
         app:layout_constraintTop_toBottomOf="@+id/SettingActivityUsernameText"
         tools:ignore="Autofill,TextContrastCheck" />
 
+
     <Button
         android:id="@+id/SettingsActivityUsernameSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
         android:text="@string/save"
         android:textColor="#000000"
@@ -49,6 +66,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SettingActivityUsernameInputBox"
+        app:layout_constraintTop_toBottomOf="@+id/SelectTeamSpinner"
         tools:ignore="VisualLintButtonSize" />
 </androidx.constraintlayout.widget.ConstraintLayout>

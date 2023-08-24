@@ -18,9 +18,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskClass;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.nickbrown.taskmaster.R;
 import com.nickbrown.taskmaster.adapter.TaskClassAdapter;
 
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(addTaskIntent);
             }
         });
-
         updateTaskListFromDatabase();
         setupRecyclerView();
         setupNavigationButton();
@@ -118,22 +119,28 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Read Tasks SUCCESSFULLY!!");
                     taskItem.clear();
                     for (TaskClass databaseTask : success.getData()) {
-                        taskItem.add(databaseTask);
+//                        String teamNumber = "Team1"; // Added semicolon
+//                        if(databaseTask.getTeamTask() != null &&
+//                        databaseTask.getTeamTask().getName().equals(teamNumber)) {
+//                            taskItem.add(databaseTask);
+//                        }
                     }
                     runOnUiThread(() -> {
                         adapter.notifyDataSetChanged();
                     });
-                },
+                }, // Added closing parenthesis for the success lambda
                 failure -> {
-                    Log.i(TAG, "FAILED reading Tasks"); // You were missing the opening curly brace
+                    Log.i(TAG, "FAILED reading Tasks");
                 }
         );
     }
+
     void updateTotalTasksCount() {
         TextView totalTasksTextView = findViewById(R.id.MainActivityTotalTaskTextView);
 // TODO: Make Dynamo       int totalTasks = taskmasterDatabase.taskdao().getTotalTasksCount();
 //        totalTasksTextView.setText("Total Tasks: " + totalTasks);
     }
+
 }
 
 

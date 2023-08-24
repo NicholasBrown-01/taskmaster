@@ -12,32 +12,39 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskClass;
-import com.amplifyframework.datastore.generated.model.TasksENUM;
+//import com.amplifyframework.datastore.generated.model.TasksENUM;
+import com.amplifyframework.datastore.generated.model.TasksEnum;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.google.android.material.snackbar.Snackbar;
 import com.nickbrown.taskmaster.R;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 public class AddTaskActivity extends AppCompatActivity {
     private final String TAG = "AddTaskActivity";
-//    TaskmasterDatabase taskmasterDatabase;
+
+CompletableFuture<List<Team>> teamsFuture = null;
+
+    Spinner teamSelectSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-//        taskmasterDatabase = Room.databaseBuilder(
-//                        getApplicationContext(),
-//                        TaskmasterDatabase.class,
-//                        MainActivity.DATABASE_NAME)
-//                .fallbackToDestructiveMigration()
-//                .allowMainThreadQueries()
-//                .build();
+        teamSelectSpinner = findViewById(R.id.AddTaskActivityTeamSpinner);
+        teamsFuture = new CompletableFuture<>();
+
 
         setupAddTaskActivitySpinner();
+        setupAddTaskActivityTeamSpinner();
         setupAddTaskSaveButton();
     }
 
@@ -46,8 +53,35 @@ public class AddTaskActivity extends AppCompatActivity {
         taskActivitySpinner.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
-                TasksENUM.values()
+                TasksEnum.values()
         ));
+    }
+
+    void setupAddTaskActivityTeamSpinner() {
+        Amplify.API.query(
+                ModelQuery.list(Team.class), // Make sure to add .class here if Team is a class type
+                success -> {
+                    Log.i(TAG, "READ TEAMS SUCCESSFULLY");
+                    ArrayList<String> teamNames = new ArrayList<>();
+                    ArrayList<Team> teams = new ArrayList<>();
+                    for (Team team : success.getData()) {
+                        teams.add(team); // Fixed line
+                        teamNames.add(team.getName());
+                    }
+                    teamsFuture.complete(teams);
+
+                    runOnUiThread(() -> {
+                        teamSelectSpinner.setAdapter(new ArrayAdapter<>(
+                                this,
+                                android.R.layout.simple_spinner_item,
+                                teamNames));
+                    });
+                },
+                failure -> {
+                    teamsFuture.complete(null);
+                    Log.i(TAG, "FAILED READ OF TEAMS!!!!!!!!!!!!!!!");
+                }
+        );
     }
 
     void setupAddTaskSaveButton() {
@@ -55,6 +89,18 @@ public class AddTaskActivity extends AppCompatActivity {
         Spinner taskActivitySpinner = findViewById(R.id.AddTaskActivitySpinner);
 
         addThisTaskButton.setOnClickListener(v -> {
+            String selectedTeamString = teamSelectSpinner.getSelectedItem().toString();
+
+            List<Team> teams = null;
+            try {
+                teams = teamsFuture.get();
+            } catch (InterruptedException ie) {
+                    Log.e(TAG, "INTERRUPTED EXCEPTION WHILE GETTING TEAMS");
+                    Thread.currentThread().interrupt();
+                } catch (ExecutionException ee){
+            Log.e(TAG, "EXECUTION EXCEPTION WHILE GETTING TEAMS");
+        }
+            Team selectedTeam = teams.stream().filter(c -> c.getName().equals(selectedTeamString)).findAny().orElseThrow(RuntimeException::new);
 
             EditText AddTaskActivityTaskTitle = findViewById(R.id.AddTaskActivityTaskTitle);
             EditText AddTaskActivityAddTaskDescription = findViewById(R.id.AddTaskActivityAddTaskDescription);
@@ -62,7 +108,8 @@ public class AddTaskActivity extends AppCompatActivity {
             TaskClass taskToSave = TaskClass.builder()
                     .title(AddTaskActivityTaskTitle.getText().toString())
                     .body(AddTaskActivityAddTaskDescription.getText().toString())
-                    .state((TasksENUM) taskActivitySpinner.getSelectedItem())
+                    .state((TasksEnum) taskActivitySpinner.getSelectedItem())
+                    .teamTask(selectedTeam)
                     .build();
 
             Amplify.API.mutate(

@@ -43,3 +43,10 @@ This lab was a database overhaul by removing SharedPrefs and creating & connecti
 The app now dynamically updates the AWS database and is verified by Dynamo Tables on the dashboard.
 All previous app functionality still works to include RecyclerView and Adding Tasks along with
 updating username.
+
+### Lab33 AWS Many to One
+
+This lab was to create a many to one relationship within the AWS model. This came in the form of 
+adding 3 Teams and then being able to add tasks within those teams. Finally, users should be able to 
+set their teams in their setting page.
+

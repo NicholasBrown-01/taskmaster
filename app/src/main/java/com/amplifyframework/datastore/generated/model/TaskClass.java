@@ -1,8 +1,10 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.annotations.BelongsTo;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.ModelIdentifier;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ import com.amplifyframework.core.model.AuthStrategy;
 import com.amplifyframework.core.model.Model;
 import com.amplifyframework.core.model.ModelOperation;
 import com.amplifyframework.core.model.annotations.AuthRule;
+import com.amplifyframework.core.model.annotations.Index;
 import com.amplifyframework.core.model.annotations.ModelConfig;
 import com.amplifyframework.core.model.annotations.ModelField;
 import com.amplifyframework.core.model.query.predicate.QueryField;
@@ -23,15 +26,18 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @ModelConfig(pluralName = "TaskClasses", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
+@Index(name = "byTeam", fields = {"teamID","title"})
 public final class TaskClass implements Model {
   public static final QueryField ID = field("TaskClass", "id");
   public static final QueryField TITLE = field("TaskClass", "title");
   public static final QueryField BODY = field("TaskClass", "body");
   public static final QueryField STATE = field("TaskClass", "state");
+  public static final QueryField TEAM_TASK = field("TaskClass", "teamID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String", isRequired = true) String body;
-  private final @ModelField(targetType="TasksENUM") TasksENUM state;
+  private final @ModelField(targetType="TasksEnum") TasksEnum state;
+  private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamID", targetNames = {"teamID"}, type = Team.class) Team teamTask;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -52,8 +58,12 @@ public final class TaskClass implements Model {
       return body;
   }
   
-  public TasksENUM getState() {
+  public TasksEnum getState() {
       return state;
+  }
+  
+  public Team getTeamTask() {
+      return teamTask;
   }
   
   public Temporal.DateTime getCreatedAt() {
@@ -64,11 +74,12 @@ public final class TaskClass implements Model {
       return updatedAt;
   }
   
-  private TaskClass(String id, String title, String body, TasksENUM state) {
+  private TaskClass(String id, String title, String body, TasksEnum state, Team teamTask) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.state = state;
+    this.teamTask = teamTask;
   }
   
   @Override
@@ -83,6 +94,7 @@ public final class TaskClass implements Model {
               ObjectsCompat.equals(getTitle(), taskClass.getTitle()) &&
               ObjectsCompat.equals(getBody(), taskClass.getBody()) &&
               ObjectsCompat.equals(getState(), taskClass.getState()) &&
+              ObjectsCompat.equals(getTeamTask(), taskClass.getTeamTask()) &&
               ObjectsCompat.equals(getCreatedAt(), taskClass.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), taskClass.getUpdatedAt());
       }
@@ -95,6 +107,7 @@ public final class TaskClass implements Model {
       .append(getTitle())
       .append(getBody())
       .append(getState())
+      .append(getTeamTask())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -109,6 +122,7 @@ public final class TaskClass implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
+      .append("teamTask=" + String.valueOf(getTeamTask()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -132,6 +146,7 @@ public final class TaskClass implements Model {
       id,
       null,
       null,
+      null,
       null
     );
   }
@@ -140,7 +155,8 @@ public final class TaskClass implements Model {
     return new CopyOfBuilder(id,
       title,
       body,
-      state);
+      state,
+      teamTask);
   }
   public interface TitleStep {
     BodyStep title(String title);
@@ -155,7 +171,8 @@ public final class TaskClass implements Model {
   public interface BuildStep {
     TaskClass build();
     BuildStep id(String id);
-    BuildStep state(TasksENUM state);
+    BuildStep state(TasksEnum state);
+    BuildStep teamTask(Team teamTask);
   }
   
 
@@ -163,7 +180,8 @@ public final class TaskClass implements Model {
     private String id;
     private String title;
     private String body;
-    private TasksENUM state;
+    private TasksEnum state;
+    private Team teamTask;
     @Override
      public TaskClass build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -172,7 +190,8 @@ public final class TaskClass implements Model {
           id,
           title,
           body,
-          state);
+          state,
+          teamTask);
     }
     
     @Override
@@ -190,8 +209,14 @@ public final class TaskClass implements Model {
     }
     
     @Override
-     public BuildStep state(TasksENUM state) {
+     public BuildStep state(TasksEnum state) {
         this.state = state;
+        return this;
+    }
+    
+    @Override
+     public BuildStep teamTask(Team teamTask) {
+        this.teamTask = teamTask;
         return this;
     }
     
@@ -207,11 +232,12 @@ public final class TaskClass implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, TasksENUM state) {
+    private CopyOfBuilder(String id, String title, String body, TasksEnum state, Team teamTask) {
       super.id(id);
       super.title(title)
         .body(body)
-        .state(state);
+        .state(state)
+        .teamTask(teamTask);
     }
     
     @Override
@@ -225,8 +251,13 @@ public final class TaskClass implements Model {
     }
     
     @Override
-     public CopyOfBuilder state(TasksENUM state) {
+     public CopyOfBuilder state(TasksEnum state) {
       return (CopyOfBuilder) super.state(state);
+    }
+    
+    @Override
+     public CopyOfBuilder teamTask(Team teamTask) {
+      return (CopyOfBuilder) super.teamTask(teamTask);
     }
   }
   

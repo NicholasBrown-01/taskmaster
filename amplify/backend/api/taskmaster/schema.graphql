@@ -6,12 +6,21 @@ type TaskClass @model @auth(rules: [{allow: public}]) {
   id: ID!
   title: String!
   body: String!
-  state: TasksENUM
+  state: TasksEnum
+  teamID: ID! @index(name: "byTeam", sortKeyFields: ["title"])
+  teamTask: Team @belongsTo(fields: ["teamID"])
 }
 
-enum TasksENUM {
+enum TasksEnum {
     NEW
   ASSIGNED
   IN_PROGRESS
   COMPLETE
+}
+
+type Team @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  tasks: [TaskClass] @hasMany(indexName: "byTeam", fields: ["id"])
+
 }

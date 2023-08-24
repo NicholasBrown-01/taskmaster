@@ -23,7 +23,7 @@
         android:id="@+id/ActivityAddThisTaskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/add_this_task"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="@string/task_title"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/AddTaskActivityTaskTitle"
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/task_description"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="163dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="164dp"
         android:text="@string/total_tasks_0"
         android:textColor="#FFFFFF"
@@ -91,8 +91,8 @@
         android:id="@+id/addTaskSubmittedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="20dp"
         android:text="@string/submitted"
         android:textColor="#FFFFFF"
         android:textColorHighlight="#FFFFFF"
@@ -100,7 +100,7 @@
         android:textSize="20sp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddTaskActivitySpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/AddTaskActivityTeamSpinner" />
 
     <Spinner
         android:id="@+id/AddTaskActivitySpinner"
@@ -116,7 +116,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddTaskActivityAddTaskDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/AddTaskActivityAddTaskDescription"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <Spinner
+        android:id="@+id/AddTaskActivityTeamSpinner"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:alpha="1"
+        android:backgroundTint="#FFFFFF"
+        android:foregroundTint="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AddTaskActivitySpinner" />
 
     <EditText
         android:id="@+id/AddTaskActivityAddTaskDescription"
@@ -131,6 +148,7 @@
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        android:autofillHints="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

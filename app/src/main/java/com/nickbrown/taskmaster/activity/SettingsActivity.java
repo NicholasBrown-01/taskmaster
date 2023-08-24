@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.preference.PreferenceManager;
 
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -28,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        setupUsernameEditText(); // Ensure this method is called to populate the EditText with the saved username
+        setupUsernameEditText();
         setupTeamSpinner();
         setupSaveButton();
     }

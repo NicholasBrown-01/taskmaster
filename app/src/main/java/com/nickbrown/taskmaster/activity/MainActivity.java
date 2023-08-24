@@ -1,31 +1,27 @@
 package com.nickbrown.taskmaster.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
-import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amplifyframework.api.graphql.model.ModelMutation;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskClass;
-import com.amplifyframework.datastore.generated.model.Team;
 import com.nickbrown.taskmaster.R;
 import com.nickbrown.taskmaster.adapter.TaskClassAdapter;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     List<TaskClass> taskItem = new ArrayList<>();
 
     TaskClassAdapter adapter;
-;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +45,9 @@ public class MainActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this); //leaving this out causes your app to stop running and not launch.
 
         Button goToAddTaskActiviyPageButton = findViewById(R.id.MainActivityAddTaskButton);
-        goToAddTaskActiviyPageButton.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View v) {
-                Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
-                startActivity(addTaskIntent);
-            }
+        goToAddTaskActiviyPageButton.setOnClickListener(v -> {
+            Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
+            startActivity(addTaskIntent);
         });
         updateTaskListFromDatabase();
         setupRecyclerView();
@@ -112,26 +102,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     void updateTaskListFromDatabase() {
+        String selectedTeam = preferences.getString("selectedTeam", "Team 1");
         Amplify.API.query(
                 ModelQuery.list(TaskClass.class),
                 success -> {
-                    Log.i(TAG, "Read Tasks SUCCESSFULLY!!");
                     taskItem.clear();
                     for (TaskClass databaseTask : success.getData()) {
-//                        String teamNumber = "Team1"; // Added semicolon
-//                        if(databaseTask.getTeamTask() != null &&
-//                        databaseTask.getTeamTask().getName().equals(teamNumber)) {
-//                            taskItem.add(databaseTask);
-//                        }
+                        if (databaseTask.getTeamTask() != null &&
+                                databaseTask.getTeamTask().getName().equals(selectedTeam)) {
+                            taskItem.add(databaseTask);
+                        }
                     }
                     runOnUiThread(() -> {
                         adapter.notifyDataSetChanged();
                     });
-                }, // Added closing parenthesis for the success lambda
-                failure -> {
-                    Log.i(TAG, "FAILED reading Tasks");
-                }
+                },
+                failure -> Log.i(TAG, "FAILED reading Tasks")
         );
     }
 

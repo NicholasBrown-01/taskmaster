@@ -50,3 +50,7 @@ This lab was to create a many to one relationship within the AWS model. This cam
 adding 3 Teams and then being able to add tasks within those teams. Finally, users should be able to 
 set their teams in their setting page.
 
+### Lab34 Android Publishing
+
+This lab was about taking our Taskmaster App and publishing it to the Google Play Store. Screenshot 
+is provided in assignment submission. All steps were correct with lecture.

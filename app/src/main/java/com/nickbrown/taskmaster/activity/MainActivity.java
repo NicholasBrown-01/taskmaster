@@ -18,6 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult;
+import com.amplifyframework.auth.options.AuthSignOutOptions;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskClass;
 import com.nickbrown.taskmaster.R;

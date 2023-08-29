@@ -20,4 +20,14 @@
     <string name="save">Save</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="emailfield">Email</string>
+    <string name="submit">Submit</string>
+    <string name="nickname">Nickname</string>
+    <string name="verify_account">Verify Account</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
 </resources>

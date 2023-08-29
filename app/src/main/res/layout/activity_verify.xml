@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.VerifyActivity">
+
+    <TextView
+        android:id="@+id/VerfiyActivityTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="150dp"
+        android:text="@string/verify_account"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextSizeCheck" />
+
+    <EditText
+        android:id="@+id/VerifyActivityEmailTextView"
+        android:layout_width="337dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/VerfiyActivityTitleTextView"
+        tools:ignore="TextFields"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/VerifyActivityVerifyNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:hint="@string/verification_code"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textColorHint="#8D6E63"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/VerifyActivityEmailTextView"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/VerifyActivitySubmitButton"
+        android:layout_width="116dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="160dp"
+        android:text="@string/submit"
+        android:textColor="#455A64"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/VerifyActivityVerifyNumberTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

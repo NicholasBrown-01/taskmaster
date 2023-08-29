@@ -54,3 +54,8 @@ set their teams in their setting page.
 
 This lab was about taking our Taskmaster App and publishing it to the Google Play Store. Screenshot 
 is provided in assignment submission. All steps were correct with lecture.
+
+### Lab36 Amplify & Cognito
+
+This lab involved adding in authentication and consistency to our Taskmaster app. We created Login, Signup, 
+and Logout features that can be tracked via TAGS and users seen added to our AWS database via Cognito.

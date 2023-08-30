@@ -64,3 +64,8 @@ and Logout features that can be tracked via TAGS and users seen added to our AWS
 
 This lab was to get S3 working alongside our App for the purpose of a user being able to select an
 image for a task, and that image display along with the task after being selected from the recyclerview.
+
+### Lab39 Location Location
+
+This lab updated our taskmaster app to retrieve the user's location and add it to the information
+being displayed on our All Tasks details page after being selected from the MainActivity RecyclerView.

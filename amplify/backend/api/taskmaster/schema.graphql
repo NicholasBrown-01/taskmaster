@@ -9,6 +9,7 @@ type TaskClass @model @auth(rules: [{allow: public}]) {
   state: TasksEnum
   teamID: ID! @index(name: "byTeam", sortKeyFields: ["title"])
   teamTask: Team @belongsTo(fields: ["teamID"])
+  taskImageS3Key: String
 }
 
 enum TasksEnum {

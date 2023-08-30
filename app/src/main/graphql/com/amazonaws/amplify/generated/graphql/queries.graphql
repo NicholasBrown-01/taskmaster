@@ -18,6 +18,7 @@ query GetTaskClass($id: ID!) {
       updatedAt
       __typename
     }
+    taskImageS3Key
     createdAt
     updatedAt
     __typename
@@ -43,6 +44,7 @@ query ListTaskClasses(
         updatedAt
         __typename
       }
+      taskImageS3Key
       createdAt
       updatedAt
       __typename
@@ -63,6 +65,7 @@ query GetTeam($id: ID!) {
         body
         state
         teamID
+        taskImageS3Key
         createdAt
         updatedAt
         __typename
@@ -127,6 +130,7 @@ query TaskClassesByTeamIDAndTitle(
         updatedAt
         __typename
       }
+      taskImageS3Key
       createdAt
       updatedAt
       __typename

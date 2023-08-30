@@ -59,3 +59,8 @@ is provided in assignment submission. All steps were correct with lecture.
 
 This lab involved adding in authentication and consistency to our Taskmaster app. We created Login, Signup, 
 and Logout features that can be tracked via TAGS and users seen added to our AWS database via Cognito.
+
+### Lab37 S3 Uploads
+
+This lab was to get S3 working alongside our App for the purpose of a user being able to select an
+image for a task, and that image display along with the task after being selected from the recyclerview.

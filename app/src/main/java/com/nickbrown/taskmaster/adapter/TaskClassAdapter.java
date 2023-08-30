@@ -61,6 +61,7 @@ public class TaskClassAdapter extends RecyclerView.Adapter<TaskClassAdapter.Task
             intent.putExtra(MainActivity.TASK_TITLE_EXTRA_TAG, tasklist.get(position).getTitle());
             intent.putExtra("TASK_DESCRIPTION", tasklist.get(position).getBody());
             intent.putExtra("TASK_CATEGORY", tasklist.get(position).getState().toString());
+            intent.putExtra(MainActivity.TASK_ID_EXTRA_TAG, tasklist.get(position).getId());
             callingActivity.startActivity(intent);
         });
     }

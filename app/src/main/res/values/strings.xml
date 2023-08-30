@@ -30,4 +30,8 @@
     <string name="verification_code">Verification Code</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="picture">Picture</string>
+    <string name="all_tasks_page">All Tasks Page</string>
+    <string name="status">Status:</string>
+    <string name="ImageS3">TODO</string>
 </resources>

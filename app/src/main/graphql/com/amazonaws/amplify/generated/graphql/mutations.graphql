@@ -21,6 +21,7 @@ mutation CreateTaskClass(
       updatedAt
       __typename
     }
+    taskImageS3Key
     createdAt
     updatedAt
     __typename
@@ -48,6 +49,7 @@ mutation UpdateTaskClass(
       updatedAt
       __typename
     }
+    taskImageS3Key
     createdAt
     updatedAt
     __typename
@@ -75,6 +77,7 @@ mutation DeleteTaskClass(
       updatedAt
       __typename
     }
+    taskImageS3Key
     createdAt
     updatedAt
     __typename
@@ -95,6 +98,7 @@ mutation CreateTeam(
         body
         state
         teamID
+        taskImageS3Key
         createdAt
         updatedAt
         __typename
@@ -122,6 +126,7 @@ mutation UpdateTeam(
         body
         state
         teamID
+        taskImageS3Key
         createdAt
         updatedAt
         __typename
@@ -149,6 +154,7 @@ mutation DeleteTeam(
         body
         state
         teamID
+        taskImageS3Key
         createdAt
         updatedAt
         __typename

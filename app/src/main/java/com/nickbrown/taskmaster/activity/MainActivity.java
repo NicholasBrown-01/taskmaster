@@ -27,6 +27,10 @@ import com.amplifyframework.datastore.generated.model.TaskClass;
 import com.nickbrown.taskmaster.R;
 import com.nickbrown.taskmaster.adapter.TaskClassAdapter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     public final String USERNAME_TAG = "Username";
     public static final String TASK_TITLE_EXTRA_TAG = "taskTitle";
+    public static final String TASK_ID_EXTRA_TAG = "taskID";
     SharedPreferences preferences;
 
     List<TaskClass> taskItem = new ArrayList<>();
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
             Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
             startActivity(addTaskIntent);
         });
+
+        manualS3FileUpload();
         updateTaskListFromDatabase();
         setupRecyclerView();
         setupNavigationButton();
@@ -129,10 +136,37 @@ public class MainActivity extends AppCompatActivity {
 
     void updateTotalTasksCount() {
         TextView totalTasksTextView = findViewById(R.id.MainActivityTotalTaskTextView);
-// TODO: Make Dynamo       int totalTasks = taskmasterDatabase.taskdao().getTotalTasksCount();
-//        totalTasksTextView.setText("Total Tasks: " + totalTasks);
     }
 
+    void manualS3FileUpload() {
+        // create a test file to be saved to S3
+        String testFilename = "testFilename";
+        File testFile = new File(getApplicationContext().getFilesDir(), testFilename);
+
+        // write to test file with BufferedWriter
+        try {
+            BufferedWriter testFileBufferedWriter = new BufferedWriter(new FileWriter(testFile));
+            testFileBufferedWriter.append("some test text here\nAnother line of test text");
+            testFileBufferedWriter.close(); // Makes sure you do this or your text may not be saved
+        } catch(IOException ioe) {
+            Log.e(TAG, "Could not write file locally with filename: " + testFilename);
+        }
+
+        // create an S3 key
+        String testFileS3Key = "someFileOnS3.txt";
+
+        // call Storage.uploadFile
+        Amplify.Storage.uploadFile(
+                testFileS3Key,
+                testFile,
+                success -> {
+                    Log.i(TAG, "S3 uploaded successfully! Key is: " + success.getKey());
+                },
+                failure -> {
+                    Log.i(TAG, "S3 upload failed! " + failure.getMessage());
+                }
+        );
+    }
 }
 
 

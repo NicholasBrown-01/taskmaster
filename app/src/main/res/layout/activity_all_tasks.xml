@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,5 +68,16 @@
         tools:ignore="ImageContrastCheck"
         tools:srcCompat="@tools:sample/avatars"
         android:contentDescription="@string/ImageS3" />
+
+    <TextView
+        android:id="@+id/AllTasksActivityLocationTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="171dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="182dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AllTaskActivityS3ImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

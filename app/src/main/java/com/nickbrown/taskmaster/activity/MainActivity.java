@@ -1,5 +1,6 @@
 package com.nickbrown.taskmaster.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(addTaskIntent);
         });
 
-        manualS3FileUpload();
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//        manualS3FileUpload();
         updateTaskListFromDatabase();
         setupRecyclerView();
         setupNavigationButton();

@@ -4,13 +4,19 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -29,19 +35,31 @@ import com.amplifyframework.datastore.generated.model.TaskClass;
 //import com.amplifyframework.datastore.generated.model.TasksENUM;
 import com.amplifyframework.datastore.generated.model.TasksEnum;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.nickbrown.taskmaster.R;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 
 public class AddTaskActivity extends AppCompatActivity {
     private final String TAG = "AddTaskActivity";
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private Geocoder geocoder;
 
 CompletableFuture<List<Team>> teamsFuture = null;
 
@@ -56,6 +74,9 @@ CompletableFuture<List<Team>> teamsFuture = null;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         teamSelectSpinner = findViewById(R.id.AddTaskActivityTeamSpinner);
         teamsFuture = new CompletableFuture<>();
         taskImageView = findViewById(R.id.AddTaskActivityTaskImageView);
@@ -112,6 +133,8 @@ CompletableFuture<List<Team>> teamsFuture = null;
     }
 
     void setupAddTaskSaveButton() {
+//        getUserLastLocation();
+        getUserCurrentLocation();
         Button addThisTaskButton = findViewById(R.id.ActivityAddThisTaskButton);
         Spinner taskActivitySpinner = findViewById(R.id.AddTaskActivitySpinner);
 
@@ -138,6 +161,8 @@ CompletableFuture<List<Team>> teamsFuture = null;
                     .state((TasksEnum) taskActivitySpinner.getSelectedItem())
                     .teamTask(selectedTeam)
                     .taskImageS3Key(s3ImageKey)
+//                    .latitude(stringReturn[0])
+//                    .long(stringReturn[1])
                     .build();
 
             Amplify.API.mutate(
@@ -155,6 +180,103 @@ CompletableFuture<List<Team>> teamsFuture = null;
             );
 
             Snackbar.make(findViewById(R.id.addTaskSubmittedText), "Task Saved!", Snackbar.LENGTH_SHORT).show();
+        });
+    }
+
+
+
+
+    void startTrackingUserLocation() {
+        LocationRequest locationRequest = new LocationRequest.Builder(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                5000)
+                .build();
+
+        LocationCallback locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                try {
+                    String address = geocoder.getFromLocation(
+                                    locationResult.getLastLocation().getLatitude(),
+                                    locationResult.getLastLocation().getLongitude(),
+                                    1) // give us only the best guess
+                            .get(0) // grab the best guess from the list of Addresses
+                            .getAddressLine(0); // get the first line String from the Address object
+
+                    Log.i(TAG, "Repeating current location is: " + address);
+                } catch (IOException ioe) {
+                    Log.e(TAG, "Could not get subscribed location: " + ioe.getMessage(), ioe);
+                }
+            }
+        };
+
+        // checking for permissions before accessing location
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
+    }
+
+    void getUserLastLocation() {
+        // TODO: Class39 Step 4-2: Ensure you have permission to access location before doing so
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        //TODO: Class39 Step 4-1 Implementation: Grab the current user's location when they select save
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location == null) {
+                Log.e(TAG, "Location callback was null");
+            }
+            String currentLatitude = Double.toString(location.getLatitude());
+            String currentLongitude = Double.toString(location.getLongitude());
+            Log.i(TAG, "User's last latitude: " + currentLatitude);
+            Log.i(TAG, "User's last longitude: " + currentLongitude);
+            // For Lab39: Save these vars to be included as part of your Task object
+        });
+    }
+
+    void getUserCurrentLocation() {
+        fusedLocationProviderClient.flushLocations(); // <-- call this is you're not seeing location changes
+
+        // Make sure you have permissions before accessing a user's location!
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+
+        // grab the user's current location
+        fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, new CancellationToken() {
+            @NonNull
+            @Override
+            public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
+                return null;
+            }
+
+            @Override
+            public boolean isCancellationRequested() {
+                return false;
+            }
+        }).addOnSuccessListener(location -> {
+            if (location == null) {
+                Log.e(TAG, "Location callback was null");
+            }
+            String currentLatitude = Double.toString(location.getLatitude());
+            String currentLongitude = Double.toString(location.getLongitude());
+
+            // Store location in Shared Preferences
+            SharedPreferences sharedPreferences = getSharedPreferences("userLocation", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("latitude", currentLatitude);
+            editor.putString("longitude", currentLongitude);
+            editor.apply();
+
+            Log.i(TAG, "User's current latitude: " + currentLatitude);
+            Log.i(TAG, "User's current longitude: " + currentLongitude);
         });
     }
 

@@ -169,22 +169,19 @@ CompletableFuture<List<Team>> teamsFuture = null;
     }
 
     ActivityResultLauncher<Intent> getImagePickingActivityResultLauncher() {
+        // Part 2: Android calls your callback with the picked image
         ActivityResultLauncher<Intent> imagePickingActivityResultLauncher =
                 registerForActivityResult(
                         new ActivityResultContracts.StartActivityForResult(),
-                        new ActivityResultCallback<ActivityResult>() {
-                            // Part 2: Android calls your callback with the picked image
-                            @Override
-                            public void onActivityResult(ActivityResult result) {
-                                Uri pickedImageFileUri = result.getData().getData();
-                                try {
-                                    InputStream pickedImageInputStream = getContentResolver().openInputStream(pickedImageFileUri);
-                                    String pickedImageFilename = getFileNameFromUri(pickedImageFileUri); // nicer way of extracing filename from a Uri
-                                    Log.i(TAG, "Succeeded in getting input stream from file on phone! Filename is: " + pickedImageFilename);
-                                   uploadInputStreamToS3(pickedImageInputStream, pickedImageFilename, pickedImageFileUri);
-                                } catch (FileNotFoundException fnfe) {
-                                    Log.e(TAG, "Could not get file form file picker! " + fnfe.getMessage(), fnfe);
-                                }
+                        result -> {
+                            Uri pickedImageFileUri = result.getData().getData();
+                            try {
+                                InputStream pickedImageInputStream = getContentResolver().openInputStream(pickedImageFileUri);
+                                String pickedImageFilename = getFileNameFromUri(pickedImageFileUri);
+                                Log.i(TAG, "Succeeded in getting input stream from file on phone! Filename is: " + pickedImageFilename);
+                                uploadInputStreamToS3(pickedImageInputStream, pickedImageFilename, pickedImageFileUri);
+                            } catch (FileNotFoundException fnfe) {
+                                Log.e(TAG, "Could not get file form file picker! " + fnfe.getMessage(), fnfe);
                             }
                         }
                 );

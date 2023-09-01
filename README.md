@@ -69,3 +69,10 @@ image for a task, and that image display along with the task after being selecte
 
 This lab updated our taskmaster app to retrieve the user's location and add it to the information
 being displayed on our All Tasks details page after being selected from the MainActivity RecyclerView.
+
+### Lab41 AWS Tools and Analytics
+
+This lab taught us to track specified demographics on user activity which can be view/veriried via
+a csv download from the Analytic Section of our AWS Dashboard. We also had to implement text-to-speech
+which I did for the Task Description Input box, as well as adding a translator from English to 
+Spanish for the Task Details Page Description text view.

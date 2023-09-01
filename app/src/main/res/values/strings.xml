@@ -35,4 +35,6 @@
     <string name="status">Status:</string>
     <string name="ImageS3">TODO</string>
     <string name="add_task_location">Add Task Location:</string>
+    <string name="add_the_task_you_made_button">Add The Task You made Button</string>
+    <string name="add_title_for_your_task">Add title for your task</string>
 </resources>

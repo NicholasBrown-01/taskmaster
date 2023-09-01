@@ -25,12 +25,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/add_the_task_you_made_button"
         android:text="@string/add_this_task"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addTaskSubmittedText"
-        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck,RedundantDescriptionCheck" />
 
     <EditText
         android:id="@+id/AddTaskActivityTaskTitle"
@@ -40,6 +41,7 @@
         android:layout_marginTop="5dp"
         android:alpha=".5"
         android:autofillHints=""
+        android:contentDescription="@string/add_title_for_your_task"
         android:ems="10"
         android:hint="@string/input_your_task_title"
         android:inputType="text"
@@ -48,7 +50,7 @@
         android:textColorHint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:ignore="LabelFor,SpeakableTextPresentCheck,TextContrastCheck" />
+        tools:ignore="ContentDescription,LabelFor,SpeakableTextPresentCheck,TextContrastCheck,EditableContentDescCheck" />
 
     <TextView
         android:id="@+id/textView4"

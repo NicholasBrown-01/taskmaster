@@ -18,6 +18,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(addTaskIntent);
         });
 
+        logAppStartup();
+
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 //        manualS3FileUpload();
         updateTaskListFromDatabase();
@@ -67,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
         setupNavigationButton();
 
     }
+
+    void logAppStartup() {
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("openedApp")
+                .addProperty("time", Long.toString(new Date().getTime()))
+                .addProperty("trackingEvent", "main activity opened")
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
+    }
+
     private void setupNavigationButton() {
         ImageView goToSettingsImage = findViewById(R.id.MainActivityImageToSettings);
 

@@ -1,0 +1,14 @@
+{
+    "resourceName": "speechGenerator480d8d7e",
+    "convertPolicyName": "speechGeneratorPolicy480d8d7e",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "convertType": "speechGenerator",
+    "language": "en-US",
+    "voice": "Joanna",
+    "access": "authAndGuest"
+}

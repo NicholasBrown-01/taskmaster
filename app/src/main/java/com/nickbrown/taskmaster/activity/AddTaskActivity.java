@@ -17,6 +17,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -46,9 +47,13 @@ import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.nickbrown.taskmaster.R;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -60,6 +65,8 @@ public class AddTaskActivity extends AppCompatActivity {
     private final String TAG = "AddTaskActivity";
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Geocoder geocoder;
+
+    private final MediaPlayer mp = new MediaPlayer();
 
 CompletableFuture<List<Team>> teamsFuture = null;
 
@@ -84,10 +91,49 @@ CompletableFuture<List<Team>> teamsFuture = null;
 
 
 
+        setupAddTaskActivityTaskTitle();
         setupAddTaskActivitySpinner();
         setupAddTaskActivityTeamSpinner();
         setupAddTaskSaveButton();
         setupTaskImageView();
+    }
+
+    void setupAddTaskActivityTaskTitle() {
+        EditText AddTaskActivityTaskTitle = findViewById(R.id.AddTaskActivityTaskTitle);
+
+        // Set up a click listener for the EditText
+        AddTaskActivityTaskTitle.setOnClickListener(v -> {
+            String taskTitle = AddTaskActivityTaskTitle.getText().toString();
+            Amplify.Predictions.convertTextToSpeech(
+                    taskTitle,
+                    result -> playAudio(result.getAudioData()),
+                    error -> Log.e(TAG, "Audio conversion of task title text failed", error)
+            );
+        });
+    }
+
+    private void playAudio(InputStream data) {
+        File mp3File = new File(getCacheDir(), "audio.mp3");
+
+        try (OutputStream out = new FileOutputStream(mp3File)) {
+            byte[] buffer = new byte[8 * 1024];
+            int bytesRead;
+
+            while ((bytesRead = data.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+
+            Log.i(TAG, "audio file finished reading");
+
+            mp.reset();
+            mp.setOnPreparedListener(MediaPlayer::start);
+            mp.setDataSource(new FileInputStream(mp3File).getFD());
+            mp.prepareAsync();
+
+            Log.i(TAG, "Audio played successfully");
+        } catch (IOException ioe) {
+            Log.e(TAG, "Error writing audio file", ioe);
+        }
     }
 
     void setupTaskImageView() {
@@ -182,9 +228,6 @@ CompletableFuture<List<Team>> teamsFuture = null;
             Snackbar.make(findViewById(R.id.addTaskSubmittedText), "Task Saved!", Snackbar.LENGTH_SHORT).show();
         });
     }
-
-
-
 
     void startTrackingUserLocation() {
         LocationRequest locationRequest = new LocationRequest.Builder(

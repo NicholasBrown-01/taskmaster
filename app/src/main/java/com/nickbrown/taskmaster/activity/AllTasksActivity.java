@@ -43,11 +43,24 @@ public class AllTasksActivity extends AppCompatActivity {
         // Fetch the S3 key from the Intent
         s3ImageKey = getIntent().getStringExtra("S3ImageKey");
 
+        Amplify.Predictions.translateText("I Really love and enjoy Code Fellows.",
+                result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+                error -> Log.e("MyAmplifyApp", "Translation failed", error)
+        );
+
         // Call this method to populate the ImageView
         populateImageView();
 
-        String taskType = getIntent().getStringExtra(MainActivity.TASK_TITLE_EXTRA_TAG);
+        // Make sure you are receiving the task description from AddTaskActivity
         String taskDescription = getIntent().getStringExtra("TASK_DESCRIPTION");
+        if (taskDescription != null && !taskDescription.isEmpty()) {
+            TextView descriptionTextView = findViewById(R.id.AllTasksDescriptionTextView);
+            descriptionTextView.setText(taskDescription);
+        }
+
+        setupTranslatorTextView();
+
+        String taskType = getIntent().getStringExtra(MainActivity.TASK_TITLE_EXTRA_TAG);
         String taskCategory = getIntent().getStringExtra("TASK_CATEGORY");
 
         if (taskType != null && !taskType.isEmpty()) {
@@ -95,5 +108,27 @@ public class AllTasksActivity extends AppCompatActivity {
         } else {
             Log.e("AllTasksActivity", "s3ImageKey is null");
         }
+    }
+
+    void setupTranslatorTextView() {
+        TextView descriptionTextView = findViewById(R.id.AllTasksDescriptionTextView);
+        TextView translationTextView = findViewById(R.id.AllTasksActivityTranslationTextView);
+
+        String textToTranslate = descriptionTextView.getText().toString();
+
+        if (textToTranslate.isEmpty()) {
+            Log.e("MyAmplifyApp", "The text to translate is empty.");
+            return;
+        }
+
+        Amplify.Predictions.translateText(
+                textToTranslate,
+                result -> {
+                    String translatedText = result.getTranslatedText();
+                    Log.i("MyAmplifyApp", "Translated Text: " + translatedText);
+                    runOnUiThread(() -> translationTextView.setText(translatedText));
+                },
+                error -> Log.e("MyAmplifyApp", "Translation failed", error)
+        );
     }
 }

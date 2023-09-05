@@ -62,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(addTaskIntent);
         });
 
+        Button setupAdsButton = findViewById(R.id.MainActivityAdButton);  // Replace 'your_ads_button_id' with the actual ID of your button
+        setupAdsButton.setOnClickListener(v -> {
+            Intent adsIntent = new Intent(MainActivity.this, AdsActivity.class);
+            startActivity(adsIntent);
+        });
+
         logAppStartup();
 
         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
@@ -69,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         updateTaskListFromDatabase();
         setupRecyclerView();
         setupNavigationButton();
-
     }
 
     void logAppStartup() {

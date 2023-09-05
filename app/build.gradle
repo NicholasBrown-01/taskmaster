@@ -30,6 +30,8 @@ android {
 
 dependencies {
 
+    implementation 'com.google.android.gms:play-services-ads:22.3.0'
+
     implementation 'com.amplifyframework:aws-api:2.11.2'
     implementation 'com.amplifyframework:aws-datastore:2.11.2'
     implementation 'com.amplifyframework:aws-storage-s3:2.12.0'

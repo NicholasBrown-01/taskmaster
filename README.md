@@ -72,7 +72,13 @@ being displayed on our All Tasks details page after being selected from the Main
 
 ### Lab41 AWS Tools and Analytics
 
-This lab taught us to track specified demographics on user activity which can be view/veriried via
+This lab taught us to track specified demographics on user activity which can be view/verified via
 a csv download from the Analytic Section of our AWS Dashboard. We also had to implement text-to-speech
 which I did for the Task Description Input box, as well as adding a translator from English to 
 Spanish for the Task Details Page Description text view.
+
+### Lab42 Monetization and Google Ads
+
+For this lab I added a button to my Main Activity that you should see at the bottom. It will take you
+to the ads page with a banner ad the bottom, Reward Above that, and interstitial above that. This lab
+was a 1 for 1 off of lecture today.
